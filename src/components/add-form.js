@@ -4,10 +4,8 @@ export const TodoForm = ({addItem}) => {
   const [text, setText] = React.useState('')
   const onSubmit = (e) => {
       e.preventDefault();
-   
       addItem(text);
       setText('');
-    
   };
 
   return (

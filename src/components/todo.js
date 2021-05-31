@@ -8,32 +8,14 @@ export const TodoApp = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(
     () => {
-      // in this case, we only care to query the contract when signed in
       if (window.walletConnection.isSignedIn()) {
         setIsLoading(true);
-        // window.contract is set by initContract in index.js
         window.contract.getItems().then((items) => {
           setIsLoading(false);
           setTodoItems(items);
         });
-
-        //   window.contract.getItems()
-        //   .then(items => {
-        //     setIsLoading(false);
-        //     setTodoItems(items)
-        //   })
       }
-
-      // window.contract is set by initContract in index.js
-      // window.contract.getGreeting({ accountId: window.accountId })
-      //   .then(greetingFromContract => {
-      //     setGreeting(greetingFromContract)
-      //   })
     },
-
-    // The second argument to useEffect tells React when to re-run the effect
-    // Use an empty array to specify "only run on first render"
-    // This works because signing into NEAR Wallet reloads the page
     []
   );
   const addItem = async (todoItem) => {
