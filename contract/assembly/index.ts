@@ -13,6 +13,8 @@
  */
 
 import { context, logging, storage } from 'near-sdk-as'
+import { items, ToDoItem } from './model'
+
 
 const DEFAULT_MESSAGE = 'Hello'
 
@@ -37,4 +39,46 @@ export function setGreeting(message: string): void {
   )
 
   storage.set(account_id, message)
+}
+
+export function addItem(text: string, isDone: boolean): ToDoItem {
+  // Creating a new message and populating fields with our data
+  const id = items.length.toString()
+  const message = new ToDoItem(id, text, isDone);
+  // Adding the message to end of the the persistent collection
+  items.set(id, message);
+  return message;
+}
+
+export function removeItem(id: string): ToDoItem[] {
+    items.delete(id.toString());
+    const res = getItems();
+    return res; 
+}
+
+export function markItem(id: string, isDone: boolean): ToDoItem[] {
+  const item = items.getSome(id);
+  item.isDone = isDone;
+  items.set(id, item);
+  const res = getItems();
+  return res;
+}
+
+export function clearItems(): ToDoItem[] {
+    items.clear();
+    const res = getItems();
+    return res; 
+}
+
+// /**
+//  * Returns an array of last N messages.\
+//  * NOTE: This is a view method. Which means it should NOT modify the state.
+//  */
+export function getItems(): ToDoItem[] {
+  const result = [] as ToDoItem[];
+  const keys = items.keys();
+  for (let i = 0; i < keys.length; i++) {
+    result[i] = items.getSome(keys[i]);
+  }
+  return result;
 }

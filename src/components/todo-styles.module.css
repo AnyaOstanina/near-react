@@ -1,0 +1,21 @@
+.close {
+    margin-left: 10px;
+    background-color: var(--primary);
+}
+.check {
+    margin-left: 10px;
+}
+
+.columns {
+    display: flex;
+    margin-top: 50px;
+}
+
+.columns ul:last-child {
+    margin-left: 50px;
+}
+
+.columns li:first-child {
+    list-style-type: none; 
+    font-weight: bold;
+}
